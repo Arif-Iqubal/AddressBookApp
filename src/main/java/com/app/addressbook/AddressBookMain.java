@@ -4,79 +4,85 @@ import java.util.Scanner;
 
 public class AddressBookMain {
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
-        // UC1: Display welcome message
-        System.out.println("Welcome to Address Book Program");
+		// UC1: Display welcome message
+		System.out.println("Welcome to Address Book Program");
 
-        Scanner scanner = new Scanner(System.in);
+		Scanner scanner = new Scanner(System.in);
+		AddressBook addressBook = new AddressBook();
 
-        AddressBook addressBook = new AddressBook();
+		/*
+		 * UC5: Ability to add multiple persons - Use console input - Add contacts one
+		 * by one
+		 */
 
-        /*
-        UC2: Add a new contact using console input
-        */
+		while (true) {
 
-        System.out.println("\nEnter Contact Details");
+			System.out.println("\nEnter Contact Details");
 
-        System.out.print("First Name: ");
-        String firstName = scanner.nextLine();
+			System.out.print("First Name: ");
+			String firstName = scanner.nextLine();
 
-        System.out.print("Last Name: ");
-        String lastName = scanner.nextLine();
+			System.out.print("Last Name: ");
+			String lastName = scanner.nextLine();
 
-        System.out.print("Address: ");
-        String address = scanner.nextLine();
+			System.out.print("Address: ");
+			String address = scanner.nextLine();
 
-        System.out.print("City: ");
-        String city = scanner.nextLine();
+			System.out.print("City: ");
+			String city = scanner.nextLine();
 
-        System.out.print("State: ");
-        String state = scanner.nextLine();
+			System.out.print("State: ");
+			String state = scanner.nextLine();
 
-        System.out.print("Zip: ");
-        String zip = scanner.nextLine();
+			System.out.print("Zip: ");
+			String zip = scanner.nextLine();
 
-        System.out.print("Phone Number: ");
-        String phoneNumber = scanner.nextLine();
+			System.out.print("Phone Number: ");
+			String phoneNumber = scanner.nextLine();
 
-        System.out.print("Email: ");
-        String email = scanner.nextLine();
+			System.out.print("Email: ");
+			String email = scanner.nextLine();
 
-        ContactPerson person = new ContactPerson(firstName, lastName, address,
-                city, state, zip, phoneNumber, email);
+			ContactPerson person = new ContactPerson(firstName, lastName, address, city, state, zip, phoneNumber,
+					email);
 
-        addressBook.addContact(person);
+			// UC2: Add contact to AddressBook
+			addressBook.addContact(person);
 
-        System.out.println("\nContact List:");
-        addressBook.displayContacts();
+			System.out.print("\nDo you want to add another contact? (yes/no): ");
+			String choice = scanner.nextLine();
 
+			if (!choice.equalsIgnoreCase("yes")) {
+				break;
+			}
+		}
 
-        /*
-        UC3: Edit existing contact using name
-        */
+		System.out.println("\nAll Contacts:");
+		addressBook.displayContacts();
 
-        System.out.print("\nEnter First Name to Edit Contact: ");
-        String editName = scanner.nextLine();
+		/*
+		 * UC3: Edit contact using name
+		 */
 
-        addressBook.editContact(editName, scanner);
+		System.out.print("\nEnter First Name to Edit Contact: ");
+		String editName = scanner.nextLine();
 
-        System.out.println("\nUpdated Contact List:");
-        addressBook.displayContacts();
+		addressBook.editContact(editName, scanner);
 
+		/*
+		 * UC4: Delete contact using name
+		 */
 
-        /*
-        UC4: Delete contact using person's name
-        */
+		System.out.print("\nEnter First Name to Delete Contact: ");
+		String deleteName = scanner.nextLine();
 
-        System.out.print("\nEnter First Name to Delete Contact: ");
-        String deleteName = scanner.nextLine();
+		addressBook.deleteContact(deleteName);
 
-        addressBook.deleteContact(deleteName);
+		System.out.println("\nFinal Contact List:");
+		addressBook.displayContacts();
 
-        System.out.println("\nContact List After Deletion:");
-        addressBook.displayContacts();
-
-        scanner.close();
-    }
+		scanner.close();
+	}
 }

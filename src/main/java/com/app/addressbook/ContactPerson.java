@@ -5,7 +5,6 @@ public class ContactPerson {
 	/*
 	 * UC1: Contact fields
 	 */
-
 	private String firstName;
 	private String lastName;
 	private String address;

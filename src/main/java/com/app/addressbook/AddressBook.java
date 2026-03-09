@@ -6,7 +6,9 @@ import java.util.Scanner;
 
 public class AddressBook {
 
-	// UC2: Use Collection to store contacts
+	/*
+	 * UC5: Collection class used to store multiple contacts
+	 */
 	private List<ContactPerson> contactList = new ArrayList<>();
 
 	// UC2: Add contact
@@ -28,7 +30,9 @@ public class AddressBook {
 		}
 	}
 
-	// UC3: Edit contact using name
+	/*
+	 * UC3: Edit contact using person's name
+	 */
 	public void editContact(String firstName, Scanner scanner) {
 
 		for (ContactPerson person : contactList) {
