@@ -6,83 +6,58 @@ public class AddressBookMain {
 
 	public static void main(String[] args) {
 
-		// UC1: Display welcome message
+		// UC1: Welcome message
 		System.out.println("Welcome to Address Book Program");
 
 		Scanner scanner = new Scanner(System.in);
-		AddressBook addressBook = new AddressBook();
 
-		/*
-		 * UC5: Ability to add multiple persons - Use console input - Add contacts one
-		 * by one
-		 */
+		// UC6: System that manages multiple address books
+		AddressBookSystem system = new AddressBookSystem();
 
 		while (true) {
 
-			System.out.println("\nEnter Contact Details");
+			System.out.println("\n1. Create New Address Book");
+			System.out.println("2. Select Address Book");
+			System.out.println("3. Exit");
 
-			System.out.print("First Name: ");
-			String firstName = scanner.nextLine();
+			System.out.print("Enter Choice: ");
+			int choice = scanner.nextInt();
+			scanner.nextLine();
 
-			System.out.print("Last Name: ");
-			String lastName = scanner.nextLine();
+			switch (choice) {
 
-			System.out.print("Address: ");
-			String address = scanner.nextLine();
+			case 1:
 
-			System.out.print("City: ");
-			String city = scanner.nextLine();
+				// UC6: Create new AddressBook with unique name
+				System.out.print("Enter Address Book Name: ");
+				String bookName = scanner.nextLine();
 
-			System.out.print("State: ");
-			String state = scanner.nextLine();
-
-			System.out.print("Zip: ");
-			String zip = scanner.nextLine();
-
-			System.out.print("Phone Number: ");
-			String phoneNumber = scanner.nextLine();
-
-			System.out.print("Email: ");
-			String email = scanner.nextLine();
-
-			ContactPerson person = new ContactPerson(firstName, lastName, address, city, state, zip, phoneNumber,
-					email);
-
-			// UC2: Add contact to AddressBook
-			addressBook.addContact(person);
-
-			System.out.print("\nDo you want to add another contact? (yes/no): ");
-			String choice = scanner.nextLine();
-
-			if (!choice.equalsIgnoreCase("yes")) {
+				system.createAddressBook(bookName);
 				break;
+
+			case 2:
+
+				System.out.print("Enter Address Book Name: ");
+				String name = scanner.nextLine();
+
+				AddressBook addressBook = system.getAddressBook(name);
+
+				if (addressBook == null) {
+					System.out.println("Address Book not found!");
+					break;
+				}
+
+				system.manageAddressBook(addressBook, scanner);
+				break;
+
+			case 3:
+				System.out.println("Exiting...");
+				scanner.close();
+				return;
+
+			default:
+				System.out.println("Invalid Choice");
 			}
 		}
-
-		System.out.println("\nAll Contacts:");
-		addressBook.displayContacts();
-
-		/*
-		 * UC3: Edit contact using name
-		 */
-
-		System.out.print("\nEnter First Name to Edit Contact: ");
-		String editName = scanner.nextLine();
-
-		addressBook.editContact(editName, scanner);
-
-		/*
-		 * UC4: Delete contact using name
-		 */
-
-		System.out.print("\nEnter First Name to Delete Contact: ");
-		String deleteName = scanner.nextLine();
-
-		addressBook.deleteContact(deleteName);
-
-		System.out.println("\nFinal Contact List:");
-		addressBook.displayContacts();
-
-		scanner.close();
 	}
 }

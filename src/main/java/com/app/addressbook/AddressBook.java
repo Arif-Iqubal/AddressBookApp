@@ -6,18 +6,14 @@ import java.util.Scanner;
 
 public class AddressBook {
 
-	/*
-	 * UC5: Collection class used to store multiple contacts
-	 */
+	// UC5: Collection storing multiple contacts
 	private List<ContactPerson> contactList = new ArrayList<>();
 
-	// UC2: Add contact
 	public void addContact(ContactPerson person) {
 		contactList.add(person);
 		System.out.println("Contact added successfully.");
 	}
 
-	// Display contacts
 	public void displayContacts() {
 
 		if (contactList.isEmpty()) {
@@ -30,9 +26,7 @@ public class AddressBook {
 		}
 	}
 
-	/*
-	 * UC3: Edit contact using person's name
-	 */
+	// UC3: Edit contact
 	public void editContact(String firstName, Scanner scanner) {
 
 		for (ContactPerson person : contactList) {
@@ -51,7 +45,7 @@ public class AddressBook {
 				System.out.print("Enter New Zip: ");
 				person.setZip(scanner.nextLine());
 
-				System.out.print("Enter New Phone Number: ");
+				System.out.print("Enter New Phone: ");
 				person.setPhoneNumber(scanner.nextLine());
 
 				System.out.print("Enter New Email: ");
@@ -65,17 +59,14 @@ public class AddressBook {
 		System.out.println("Contact not found.");
 	}
 
-	/*
-	 * UC4: Delete contact using person's name
-	 */
+	// UC4: Delete contact
 	public void deleteContact(String firstName) {
 
 		boolean removed = contactList.removeIf(person -> person.getFirstName().equalsIgnoreCase(firstName));
 
-		if (removed) {
+		if (removed)
 			System.out.println("Contact deleted successfully.");
-		} else {
+		else
 			System.out.println("Contact not found.");
-		}
 	}
 }

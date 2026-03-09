@@ -2,9 +2,8 @@ package com.app.addressbook;
 
 public class ContactPerson {
 
-	/*
-	 * UC1: Contact fields
-	 */
+	// UC1: Contact fields
+
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -64,7 +63,7 @@ public class ContactPerson {
 		System.out.println("City: " + city);
 		System.out.println("State: " + state);
 		System.out.println("Zip: " + zip);
-		System.out.println("Phone Number: " + phoneNumber);
+		System.out.println("Phone: " + phoneNumber);
 		System.out.println("Email: " + email);
 	}
 }
