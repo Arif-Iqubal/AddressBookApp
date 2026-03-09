@@ -9,7 +9,16 @@ public class AddressBook {
 	// UC5: Collection storing multiple contacts
 	private List<ContactPerson> contactList = new ArrayList<>();
 
+	/*
+	 * UC7: Check duplicate before adding contact
+	 */
 	public void addContact(ContactPerson person) {
+
+		if (contactList.contains(person)) {
+			System.out.println("Duplicate entry! Person already exists.");
+			return;
+		}
+
 		contactList.add(person);
 		System.out.println("Contact added successfully.");
 	}

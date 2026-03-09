@@ -1,9 +1,10 @@
 package com.app.addressbook;
 
+import java.util.Objects;
+
 public class ContactPerson {
 
 	// UC1: Contact fields
-
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -52,6 +53,31 @@ public class ContactPerson {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	/*
+	 * UC7: Override equals() method to check duplicate entry Duplicate defined by
+	 * same firstName and lastName
+	 */
+	@Override
+	public boolean equals(Object obj) {
+
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+
+		ContactPerson person = (ContactPerson) obj;
+
+		return firstName.equalsIgnoreCase(person.firstName) && lastName.equalsIgnoreCase(person.lastName);
+	}
+
+	/*
+	 * Required when equals() is overridden
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(firstName.toLowerCase(), lastName.toLowerCase());
 	}
 
 	public void displayContact() {
