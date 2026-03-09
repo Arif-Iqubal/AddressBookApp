@@ -2,81 +2,70 @@ package com.app.addressbook;
 
 public class ContactPerson {
 
-    /*
-     UC1: Create ContactPerson class with following fields
-     firstName, lastName, address, city, state, zip,
-     phoneNumber and email
-    */
+	/*
+	 * UC1: Contact fields
+	 */
 
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String city;
-    private String state;
-    private String zip;
-    private String phoneNumber;
-    private String email;
+	private String firstName;
+	private String lastName;
+	private String address;
+	private String city;
+	private String state;
+	private String zip;
+	private String phoneNumber;
+	private String email;
 
+	public ContactPerson(String firstName, String lastName, String address, String city, String state, String zip,
+			String phoneNumber, String email) {
 
-    // Constructor to initialize contact details
-    public ContactPerson(String firstName, String lastName, String address,
-                         String city, String state, String zip,
-                         String phoneNumber, String email) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+	}
 
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-    // Getter for first name (used for searching contact)
-    public String getFirstName() {
-        return firstName;
-    }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
+	public void setState(String state) {
+		this.state = state;
+	}
 
-    // Setters used in UC3 while editing contact
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 
-    public void setState(String state) {
-        this.state = state;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
+	public void displayContact() {
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
-    // Display contact information
-    public void displayContact() {
-
-        System.out.println("---------------------------");
-        System.out.println("First Name: " + firstName);
-        System.out.println("Last Name: " + lastName);
-        System.out.println("Address: " + address);
-        System.out.println("City: " + city);
-        System.out.println("State: " + state);
-        System.out.println("Zip: " + zip);
-        System.out.println("Phone Number: " + phoneNumber);
-        System.out.println("Email: " + email);
-    }
+		System.out.println("---------------------------");
+		System.out.println("First Name: " + firstName);
+		System.out.println("Last Name: " + lastName);
+		System.out.println("Address: " + address);
+		System.out.println("City: " + city);
+		System.out.println("State: " + state);
+		System.out.println("Zip: " + zip);
+		System.out.println("Phone Number: " + phoneNumber);
+		System.out.println("Email: " + email);
+	}
 }
