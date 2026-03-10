@@ -1,65 +1,115 @@
 package com.app.addressbook;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class AddressBook {
 
-	private List<ContactPerson> contactList = new ArrayList<>();
+    // UC5: Collection to store multiple contacts
+    private List<ContactPerson> contactList = new ArrayList<>();
 
-	public void addContact(ContactPerson person) {
 
-		if (contactList.contains(person)) {
-			System.out.println("Duplicate entry! Person already exists.");
-			return;
-		}
+    /*
+     UC7: Add contact with duplicate check
+    */
+    public void addContact(ContactPerson person) {
 
-		contactList.add(person);
-		System.out.println("Contact added successfully.");
-	}
+        if (contactList.contains(person)) {
+            System.out.println("Duplicate entry! Person already exists.");
+            return;
+        }
 
-	public List<ContactPerson> getContacts() {
-		return contactList;
-	}
+        contactList.add(person);
+        System.out.println("Contact added successfully.");
+    }
 
-	public void displayContacts() {
 
-		if (contactList.isEmpty()) {
-			System.out.println("No contacts available.");
-			return;
-		}
+    /*
+     UC5: Display all contacts
+    */
+    public void displayContacts() {
 
-		contactList.forEach(ContactPerson::displayContact);
-	}
+        if (contactList.isEmpty()) {
+            System.out.println("No contacts found.");
+            return;
+        }
 
-	public void editContact(String firstName, Scanner scanner) {
+        contactList.forEach(System.out::println);
+    }
 
-		for (ContactPerson person : contactList) {
 
-			if (person.getFirstName().equalsIgnoreCase(firstName)) {
+    /*
+     UC3: Edit contact using person's first name
+    */
+    public void editContact(String firstName, Scanner scanner) {
 
-				System.out.print("Enter New City: ");
-				person.setCity(scanner.nextLine());
+        for (ContactPerson person : contactList) {
 
-				System.out.print("Enter New State: ");
-				person.setState(scanner.nextLine());
+            if (person.getFirstName().equalsIgnoreCase(firstName)) {
 
-				System.out.println("Contact updated successfully.");
-				return;
-			}
-		}
+                System.out.print("Enter New Address: ");
+                person.setAddress(scanner.nextLine());
 
-		System.out.println("Contact not found.");
-	}
+                System.out.print("Enter New City: ");
+                person.setCity(scanner.nextLine());
 
-	public void deleteContact(String firstName) {
+                System.out.print("Enter New State: ");
+                person.setState(scanner.nextLine());
 
-		boolean removed = contactList.removeIf(person -> person.getFirstName().equalsIgnoreCase(firstName));
+                System.out.print("Enter New Zip: ");
+                person.setZip(scanner.nextLine());
 
-		if (removed)
-			System.out.println("Contact deleted successfully.");
-		else
-			System.out.println("Contact not found.");
-	}
+                System.out.print("Enter New Phone Number: ");
+                person.setPhoneNumber(scanner.nextLine());
+
+                System.out.print("Enter New Email: ");
+                person.setEmail(scanner.nextLine());
+
+                System.out.println("Contact updated successfully.");
+                return;
+            }
+        }
+
+        System.out.println("Contact not found.");
+    }
+
+
+    /*
+     UC4: Delete contact using person's name
+    */
+    public void deleteContact(String firstName) {
+
+        boolean removed = contactList.removeIf(
+                person -> person.getFirstName().equalsIgnoreCase(firstName)
+        );
+
+        if (removed)
+            System.out.println("Contact deleted successfully.");
+        else
+            System.out.println("Contact not found.");
+    }
+
+
+    /*
+     Used in Streams operations (UC8 & UC10)
+    */
+    public List<ContactPerson> getContacts() {
+        return contactList;
+    }
+
+
+    /*
+     UC11: Sort contacts alphabetically by person's name
+     Uses Java Streams
+    */
+    public void sortContactsByName() {
+
+        List<ContactPerson> sortedList = contactList.stream()
+                .sorted(Comparator
+                        .comparing(ContactPerson::getFirstName)
+                        .thenComparing(ContactPerson::getLastName))
+                .collect(Collectors.toList());
+
+        sortedList.forEach(System.out::println);
+    }
 }

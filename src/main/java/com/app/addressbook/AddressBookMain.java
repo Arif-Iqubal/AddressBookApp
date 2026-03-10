@@ -6,7 +6,7 @@ public class AddressBookMain {
 
 	public static void main(String[] args) {
 
-		// UC1: Welcome Message
+		// UC1: Welcome message
 		System.out.println("Welcome to Address Book Program");
 
 		Scanner scanner = new Scanner(System.in);
@@ -23,9 +23,10 @@ public class AddressBookMain {
 			System.out.println("4. Search Person by State (UC8)");
 			System.out.println("5. View Persons by City (UC9)");
 			System.out.println("6. View Persons by State (UC9)");
-			System.out.println("7. Count Persons by City");
-			System.out.println("8. Count Persons by State");
-			System.out.println("9. Exit");
+			System.out.println("7. Count Persons by City (UC10)");
+			System.out.println("8. Count Persons by State (UC10)");
+			System.out.println("9. Sort contacts by Name (UC11)");
+			System.out.println("10. Exit");
 
 			System.out.print("Enter Choice: ");
 			int choice = scanner.nextInt();
@@ -34,8 +35,10 @@ public class AddressBookMain {
 			switch (choice) {
 
 			case 1:
+
 				System.out.print("Enter Address Book Name: ");
 				String bookName = scanner.nextLine();
+
 				system.createAddressBook(bookName);
 				break;
 
@@ -95,8 +98,12 @@ public class AddressBookMain {
 
 				system.countPersonsByState();
 				break;
-
 			case 9:
+				AddressBook book1 = new AddressBook();
+			    book1.sortContactsByName();
+			    break;
+
+			case 10:
 
 				System.out.println("Exiting program...");
 				scanner.close();
@@ -110,8 +117,8 @@ public class AddressBookMain {
 	}
 
 	/*
-	 * Manage contacts inside selected AddressBook UC2 → Add Contact UC3 → Edit
-	 * Contact UC4 → Delete Contact UC5 → Multiple Contacts
+	 * Manage contacts inside AddressBook UC2 → Add Contact UC3 → Edit Contact UC4 →
+	 * Delete Contact UC5 → Multiple Contacts UC11 → Sort Contacts
 	 */
 	private static void manageContacts(AddressBook book, Scanner scanner, AddressBookSystem system) {
 
@@ -122,7 +129,8 @@ public class AddressBookMain {
 			System.out.println("2. Edit Contact");
 			System.out.println("3. Delete Contact");
 			System.out.println("4. Display Contacts");
-			System.out.println("5. Back");
+			System.out.println("5. Sort Contacts by Name (UC11)");
+			System.out.println("6. Back");
 
 			System.out.print("Enter Choice: ");
 			int option = scanner.nextInt();
@@ -158,10 +166,9 @@ public class AddressBookMain {
 
 				ContactPerson person = new ContactPerson(firstName, lastName, address, city, state, zip, phone, email);
 
-				// UC7: Duplicate check happens inside addContact
 				book.addContact(person);
 
-				// UC9: Add person to city/state dictionary
+				// UC9: store person in city/state dictionary
 				system.addPersonToCityState(person);
 
 				break;
@@ -188,6 +195,11 @@ public class AddressBookMain {
 				break;
 
 			case 5:
+
+				book.sortContactsByName();
+				break;
+
+			case 6:
 
 				return;
 

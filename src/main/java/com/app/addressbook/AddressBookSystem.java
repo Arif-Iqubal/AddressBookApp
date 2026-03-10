@@ -1,10 +1,14 @@
 package com.app.addressbook;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AddressBookSystem {
 
-	// UC6: Store multiple AddressBooks
+	/*
+	 * UC6: Dictionary storing multiple AddressBooks Key = AddressBook Name Value =
+	 * AddressBook Object
+	 */
 	private Map<String, AddressBook> addressBookMap = new HashMap<>();
 
 	/*
@@ -17,6 +21,9 @@ public class AddressBookSystem {
 	 */
 	private Map<String, List<ContactPerson>> statePersonMap = new HashMap<>();
 
+	/*
+	 * UC6: Create new AddressBook
+	 */
 	public void createAddressBook(String name) {
 
 		if (addressBookMap.containsKey(name)) {
@@ -25,21 +32,43 @@ public class AddressBookSystem {
 		}
 
 		addressBookMap.put(name, new AddressBook());
+
 		System.out.println("AddressBook '" + name + "' created successfully.");
 	}
 
+	/*
+	 * UC6: Get AddressBook by name
+	 */
 	public AddressBook getAddressBook(String name) {
 		return addressBookMap.get(name);
 	}
 
 	/*
-	 * UC9: Add person into city and state dictionary
+	 * UC9: Add person to city and state dictionary
 	 */
 	public void addPersonToCityState(ContactPerson person) {
 
 		cityPersonMap.computeIfAbsent(person.getCity(), k -> new ArrayList<>()).add(person);
 
 		statePersonMap.computeIfAbsent(person.getState(), k -> new ArrayList<>()).add(person);
+	}
+
+	/*
+	 * UC8: Search person by City across multiple AddressBooks Uses Java Streams
+	 */
+	public void searchPersonByCity(String city) {
+
+		addressBookMap.values().stream().flatMap(book -> book.getContacts().stream())
+				.filter(person -> person.getCity().equalsIgnoreCase(city)).forEach(System.out::println);
+	}
+
+	/*
+	 * UC8: Search person by State across multiple AddressBooks Uses Java Streams
+	 */
+	public void searchPersonByState(String state) {
+
+		addressBookMap.values().stream().flatMap(book -> book.getContacts().stream())
+				.filter(person -> person.getState().equalsIgnoreCase(state)).forEach(System.out::println);
 	}
 
 	/*
@@ -54,7 +83,7 @@ public class AddressBookSystem {
 			return;
 		}
 
-		persons.forEach(ContactPerson::displayContact);
+		persons.forEach(System.out::println);
 	}
 
 	/*
@@ -69,7 +98,7 @@ public class AddressBookSystem {
 			return;
 		}
 
-		persons.forEach(ContactPerson::displayContact);
+		persons.forEach(System.out::println);
 	}
 
 	/*
@@ -78,8 +107,7 @@ public class AddressBookSystem {
 	public void countPersonsByCity() {
 
 		addressBookMap.values().stream().flatMap(book -> book.getContacts().stream())
-				.collect(java.util.stream.Collectors.groupingBy(ContactPerson::getCity,
-						java.util.stream.Collectors.counting()))
+				.collect(Collectors.groupingBy(ContactPerson::getCity, Collectors.counting()))
 				.forEach((city, count) -> System.out.println(city + " : " + count));
 	}
 
@@ -89,8 +117,7 @@ public class AddressBookSystem {
 	public void countPersonsByState() {
 
 		addressBookMap.values().stream().flatMap(book -> book.getContacts().stream())
-				.collect(java.util.stream.Collectors.groupingBy(ContactPerson::getState,
-						java.util.stream.Collectors.counting()))
+				.collect(Collectors.groupingBy(ContactPerson::getState, Collectors.counting()))
 				.forEach((state, count) -> System.out.println(state + " : " + count));
 	}
 }
