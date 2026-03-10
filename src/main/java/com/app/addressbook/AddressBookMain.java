@@ -100,8 +100,8 @@ public class AddressBookMain {
 				break;
 			case 9:
 				AddressBook book1 = new AddressBook();
-			    book1.sortContactsByName();
-			    break;
+				book1.sortContactsByName();
+				break;
 
 			case 10:
 
@@ -130,7 +130,11 @@ public class AddressBookMain {
 			System.out.println("3. Delete Contact");
 			System.out.println("4. Display Contacts");
 			System.out.println("5. Sort Contacts by Name (UC11)");
-			System.out.println("6. Back");
+			System.out.println("5. Sort Contacts by Name (UC11)");
+			System.out.println("6. Sort Contacts by City (UC12)");
+			System.out.println("7. Sort Contacts by State (UC12)");
+			System.out.println("8. Sort Contacts by Zip (UC12)");
+			System.out.println("9. Back");
 
 			System.out.print("Enter Choice: ");
 			int option = scanner.nextInt();
@@ -195,12 +199,22 @@ public class AddressBookMain {
 				break;
 
 			case 5:
-
 				book.sortContactsByName();
 				break;
 
 			case 6:
+				book.sortContactsByCity();
+				break;
 
+			case 7:
+				book.sortContactsByState();
+				break;
+
+			case 8:
+				book.sortContactsByZip();
+				break;
+
+			case 9:
 				return;
 
 			default:
