@@ -1,13 +1,21 @@
 package com.app.addressbook;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class AddressBookSystem {
 
-	// UC6: Dictionary storing multiple AddressBooks
+	// UC6: Store multiple AddressBooks
 	private Map<String, AddressBook> addressBookMap = new HashMap<>();
+
+	/*
+	 * UC9: Dictionary for City → Persons
+	 */
+	private Map<String, List<ContactPerson>> cityPersonMap = new HashMap<>();
+
+	/*
+	 * UC9: Dictionary for State → Persons
+	 */
+	private Map<String, List<ContactPerson>> statePersonMap = new HashMap<>();
 
 	public void createAddressBook(String name) {
 
@@ -25,20 +33,42 @@ public class AddressBookSystem {
 	}
 
 	/*
-	 * UC8: Search person by City across multiple AddressBooks using Streams
+	 * UC9: Add person into city and state dictionary
 	 */
-	public void searchPersonByCity(String city) {
+	public void addPersonToCityState(ContactPerson person) {
 
-		addressBookMap.values().stream().flatMap(book -> book.getContacts().stream())
-				.filter(person -> person.getCity().equalsIgnoreCase(city)).forEach(ContactPerson::displayContact);
+		cityPersonMap.computeIfAbsent(person.getCity(), k -> new ArrayList<>()).add(person);
+
+		statePersonMap.computeIfAbsent(person.getState(), k -> new ArrayList<>()).add(person);
 	}
 
 	/*
-	 * UC8: Search person by State across multiple AddressBooks using Streams
+	 * UC9: View persons by City
 	 */
-	public void searchPersonByState(String state) {
+	public void viewPersonsByCity(String city) {
 
-		addressBookMap.values().stream().flatMap(book -> book.getContacts().stream())
-				.filter(person -> person.getState().equalsIgnoreCase(state)).forEach(ContactPerson::displayContact);
+		List<ContactPerson> persons = cityPersonMap.get(city);
+
+		if (persons == null || persons.isEmpty()) {
+			System.out.println("No persons found in this city.");
+			return;
+		}
+
+		persons.forEach(ContactPerson::displayContact);
+	}
+
+	/*
+	 * UC9: View persons by State
+	 */
+	public void viewPersonsByState(String state) {
+
+		List<ContactPerson> persons = statePersonMap.get(state);
+
+		if (persons == null || persons.isEmpty()) {
+			System.out.println("No persons found in this state.");
+			return;
+		}
+
+		persons.forEach(ContactPerson::displayContact);
 	}
 }
