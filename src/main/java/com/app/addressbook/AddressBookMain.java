@@ -23,7 +23,9 @@ public class AddressBookMain {
 			System.out.println("4. Search Person by State (UC8)");
 			System.out.println("5. View Persons by City (UC9)");
 			System.out.println("6. View Persons by State (UC9)");
-			System.out.println("7. Exit");
+			System.out.println("7. Count Persons by City");
+			System.out.println("8. Count Persons by State");
+			System.out.println("9. Exit");
 
 			System.out.print("Enter Choice: ");
 			int choice = scanner.nextInt();
@@ -85,6 +87,16 @@ public class AddressBookMain {
 				break;
 
 			case 7:
+
+				system.countPersonsByCity();
+				break;
+
+			case 8:
+
+				system.countPersonsByState();
+				break;
+
+			case 9:
 
 				System.out.println("Exiting program...");
 				scanner.close();

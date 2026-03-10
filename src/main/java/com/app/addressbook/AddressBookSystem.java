@@ -71,4 +71,26 @@ public class AddressBookSystem {
 
 		persons.forEach(ContactPerson::displayContact);
 	}
+
+	/*
+	 * UC10: Count persons by City using Streams
+	 */
+	public void countPersonsByCity() {
+
+		addressBookMap.values().stream().flatMap(book -> book.getContacts().stream())
+				.collect(java.util.stream.Collectors.groupingBy(ContactPerson::getCity,
+						java.util.stream.Collectors.counting()))
+				.forEach((city, count) -> System.out.println(city + " : " + count));
+	}
+
+	/*
+	 * UC10: Count persons by State using Streams
+	 */
+	public void countPersonsByState() {
+
+		addressBookMap.values().stream().flatMap(book -> book.getContacts().stream())
+				.collect(java.util.stream.Collectors.groupingBy(ContactPerson::getState,
+						java.util.stream.Collectors.counting()))
+				.forEach((state, count) -> System.out.println(state + " : " + count));
+	}
 }
