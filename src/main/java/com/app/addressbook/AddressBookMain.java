@@ -134,7 +134,9 @@ public class AddressBookMain {
 			System.out.println("6. Sort Contacts by City (UC12)");
 			System.out.println("7. Sort Contacts by State (UC12)");
 			System.out.println("8. Sort Contacts by Zip (UC12)");
-			System.out.println("9. Back");
+			System.out.println("9. Save Contacts to File (UC13)");
+			System.out.println("10. Load Contacts from File (UC13)");
+			System.out.println("11. Back");
 
 			System.out.print("Enter Choice: ");
 			int option = scanner.nextInt();
@@ -215,6 +217,22 @@ public class AddressBookMain {
 				break;
 
 			case 9:
+
+				System.out.print("Enter file name: ");
+				String writeFile = scanner.nextLine();
+
+				book.writeToFile(writeFile);
+				break;
+
+			case 10:
+
+				System.out.print("Enter file name: ");
+				String readFile = scanner.nextLine();
+
+				book.readFromFile(readFile);
+				break;
+
+			case 11:
 				return;
 
 			default:

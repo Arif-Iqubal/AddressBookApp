@@ -2,6 +2,11 @@ package com.app.addressbook;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class AddressBook {
 
@@ -133,5 +138,65 @@ public class AddressBook {
 		}
 
 		contactList.stream().sorted(Comparator.comparing(ContactPerson::getZip)).forEach(System.out::println);
+	}
+	
+	//UC13: Read Write from file
+	
+	
+
+	public void writeToFile(String fileName) {
+
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+
+	        for (ContactPerson person : contactList) {
+
+	            writer.write(
+	                    person.getFirstName() + "," +
+	                    person.getLastName() + "," +
+	                    person.getAddress() + "," +
+	                    person.getCity() + "," +
+	                    person.getState() + "," +
+	                    person.getZip() + "," +
+	                    person.getPhoneNumber() + "," +
+	                    person.getEmail()
+	            );
+
+	            writer.newLine();
+	        }
+
+	        System.out.println("Contacts saved to file successfully.");
+
+	    } catch (IOException e) {
+	        System.out.println("Error writing to file: " + e.getMessage());
+	    }
+	}
+	
+	
+
+
+	public void readFromFile(String fileName) {
+
+	    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+
+	        String line;
+
+	        while ((line = reader.readLine()) != null) {
+
+	            String[] data = line.split(",");
+
+	            ContactPerson person = new ContactPerson(
+	                    data[0], data[1], data[2],
+	                    data[3], data[4], data[5],
+	                    data[6], data[7]
+	            );
+
+	            contactList.add(person);
+	        }
+
+	        System.out.println("Contacts loaded from file successfully.");
+
+	    } catch (IOException e) {
+	        System.out.println("Error reading file: " + e.getMessage());
+	    }
 	}
 }

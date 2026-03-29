@@ -37,6 +37,11 @@ public class ContactPerson {
 	public String getCity() {
 		return city;
 	}
+	
+
+	public String getAddress() {
+		return address;
+	}
 
 	public String getState() {
 		return state;
@@ -68,6 +73,16 @@ public class ContactPerson {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 
 	@Override
