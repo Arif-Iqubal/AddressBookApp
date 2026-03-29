@@ -2,6 +2,7 @@ package com.app.addressbook;
 
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 public class AddressBookService {
 
@@ -33,23 +34,53 @@ public class AddressBookService {
 		return false;
 	}
 
-	//UC18: 
+	// UC18:
 	public List<ContactPerson> getContactsByDateRange(String startDate, String endDate) {
 		return dao.getContactsByDateRange(startDate, endDate);
 	}
-	
-	//UC19:
+
+	// UC19:
 	public Map<String, Integer> getContactCountByCity() {
-	    return dao.getContactCountByCity();
+		return dao.getContactCountByCity();
 	}
 
 	public Map<String, Integer> getContactCountByState() {
-	    return dao.getContactCountByState();
+		return dao.getContactCountByState();
 	}
-	
-	//UC20:
-	
+
+	// UC20:
+
 	public boolean addContact(ContactPerson person) {
-	    return dao.addContactWithTransaction(person);
+		return dao.addContactWithTransaction(person);
+	}
+
+	// UC21
+
+	
+
+	public void addMultipleContacts(List<ContactPerson> persons) {
+
+	    List<Thread> threads = new ArrayList<>();
+
+	    for (ContactPerson person : persons) {
+
+	        Thread thread = new Thread(() -> {
+	            dao.addContactWithTransaction(person);
+	        });
+
+	        threads.add(thread);
+	        thread.start();
+	    }
+
+	    // Wait for all threads
+	    for (Thread t : threads) {
+	        try {
+	            t.join();
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    System.out.println("All contacts inserted successfully.");
 	}
 }

@@ -1,5 +1,6 @@
 package com.app.addressbook;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -15,6 +16,16 @@ public class AddressBookMain {
 
 		// UC6: System managing multiple address books
 		AddressBookSystem system = new AddressBookSystem();
+
+		List<ContactPerson> persons = new ArrayList<>();
+
+		persons.add(new ContactPerson("A", "A", "Bhopal", "Bhopal", "MP", "1", "1", "a@mail"));
+		persons.add(new ContactPerson("B", "B", "Indore", "Indore", "MP", "2", "2", "b@mail"));
+		persons.add(new ContactPerson("C", "C", "Delhi", "Delhi", "DL", "3", "3", "c@mail"));
+
+		AddressBookService service = new AddressBookService();
+
+		service.addMultipleContacts(persons);
 
 		while (true) {
 
