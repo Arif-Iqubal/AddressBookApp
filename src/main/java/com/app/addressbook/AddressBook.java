@@ -25,24 +25,21 @@ public class AddressBook {
 	 */
 	public void addContact(ContactPerson person) {
 
-		// UC7: Duplicate check in memory
 		if (contactList.contains(person)) {
 			System.out.println("Duplicate entry! Person already exists.");
 			return;
 		}
 
-		// Add to DB first (UC16)
-		boolean isAddedToDB = dao.insertContact(person);
+		boolean dbSuccess = dao.addContactWithTransaction(person);
 
-		if (!isAddedToDB) {
-			System.out.println("Failed to add contact to database.");
+		if (!dbSuccess) {
+			System.out.println("Failed to add contact to DB.");
 			return;
 		}
 
-		// Add to memory only if DB success (UC17 Sync)
 		contactList.add(person);
 
-		System.out.println("Contact added successfully (DB + Memory).");
+		System.out.println("Contact added successfully (Transaction + Sync).");
 	}
 
 	/*

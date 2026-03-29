@@ -46,4 +46,10 @@ public class AddressBookService {
 	public Map<String, Integer> getContactCountByState() {
 	    return dao.getContactCountByState();
 	}
+	
+	//UC20:
+	
+	public boolean addContact(ContactPerson person) {
+	    return dao.addContactWithTransaction(person);
+	}
 }

@@ -166,4 +166,71 @@ public class AddressBookDAO {
 
 		return stateCountMap;
 	}
+
+	public boolean addContactWithTransaction(ContactPerson person) {
+
+		Connection conn = null;
+
+		try {
+			conn = DBConnection.getConnection();
+
+			// Start transaction
+			conn.setAutoCommit(false);
+
+			/*
+			 * 1️⃣ Insert into contacts table
+			 */
+			String contactQuery = "INSERT INTO contacts (first_name, last_name, address, city, state, zip, phone, email, date_added) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+			PreparedStatement ps1 = conn.prepareStatement(contactQuery);
+
+			ps1.setString(1, person.getFirstName());
+			ps1.setString(2, person.getLastName());
+			ps1.setString(3, person.getAddress());
+			ps1.setString(4, person.getCity());
+			ps1.setString(5, person.getState());
+			ps1.setString(6, person.getZip());
+			ps1.setString(7, person.getPhoneNumber());
+			ps1.setString(8, person.getEmail());
+			ps1.setDate(9, java.sql.Date.valueOf(java.time.LocalDate.now()));
+
+			ps1.executeUpdate();
+
+			/*
+			 * 2️⃣ (Optional) Example second table insert Uncomment if you have another
+			 * table
+			 * 
+			 * String detailsQuery = "INSERT INTO contact_details (...) VALUES (...)";
+			 * PreparedStatement ps2 = conn.prepareStatement(detailsQuery);
+			 * ps2.executeUpdate();
+			 */
+
+			// Commit transaction
+			conn.commit();
+
+			return true;
+
+		} catch (Exception e) {
+
+			System.out.println("Transaction Failed: " + e.getMessage());
+
+			try {
+				if (conn != null)
+					conn.rollback(); // rollback if error
+			} catch (SQLException ex) {
+				System.out.println("Rollback failed: " + ex.getMessage());
+			}
+
+		} finally {
+
+			try {
+				if (conn != null)
+					conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				System.out.println("Error resetting auto-commit");
+			}
+		}
+
+		return false;
+	}
 }
