@@ -1,5 +1,6 @@
 package com.app.addressbook;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class AddressBookMain {
@@ -140,7 +141,8 @@ public class AddressBookMain {
 			System.out.println("12. Load Contacts from CSV (UC14)");
 			System.out.println("13. Save Contacts to JSON (UC15)");
 			System.out.println("14. Load Contacts from JSON (UC15)");
-			System.out.println("15. Back");
+			System.out.println("15. Retrieve Contacts from Database (UC16)");
+			System.out.println("16. Back");
 
 			System.out.print("Enter Choice: ");
 			int option = scanner.nextInt();
@@ -269,6 +271,20 @@ public class AddressBookMain {
 				break;
 
 			case 15:
+
+				AddressBookService service = new AddressBookService();
+
+				List<ContactPerson> contacts = service.getAllContacts();
+
+				if (contacts.isEmpty()) {
+					System.out.println("No records found in DB.");
+				} else {
+					contacts.forEach(System.out::println);
+				}
+
+				break;
+
+			case 16:
 				return;
 
 			default:
