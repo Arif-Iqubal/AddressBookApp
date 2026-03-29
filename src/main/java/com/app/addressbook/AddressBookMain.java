@@ -142,7 +142,8 @@ public class AddressBookMain {
 			System.out.println("13. Save Contacts to JSON (UC15)");
 			System.out.println("14. Load Contacts from JSON (UC15)");
 			System.out.println("15. Retrieve Contacts from Database (UC16)");
-			System.out.println("16. Back");
+			System.out.println("16. Retrieve Contacts by Date Range (UC18)");
+			System.out.println("17. Back");
 
 			System.out.print("Enter Choice: ");
 			int option = scanner.nextInt();
@@ -197,7 +198,8 @@ public class AddressBookMain {
 				String zip1 = "";
 				String phone1 = "";
 				String email1 = "";
-				ContactPerson person1 = new ContactPerson(firstName1, lastName1, address1, city1, state1, zip1, phone1, email1);
+				ContactPerson person1 = new ContactPerson(firstName1, lastName1, address1, city1, state1, zip1, phone1,
+						email1);
 				book.editContact(editName, person1);
 				break;
 
@@ -293,6 +295,26 @@ public class AddressBookMain {
 				break;
 
 			case 16:
+
+				System.out.print("Enter Start Date (YYYY-MM-DD): ");
+				String start = scanner.nextLine();
+
+				System.out.print("Enter End Date (YYYY-MM-DD): ");
+				String end = scanner.nextLine();
+
+				AddressBookService service1 = new AddressBookService();
+
+				List<ContactPerson> contacts1 = service1.getContactsByDateRange(start, end);
+
+				if (contacts1.isEmpty()) {
+					System.out.println("No contacts found in given date range.");
+				} else {
+					contacts1.forEach(System.out::println);
+				}
+
+				break;
+
+			case 17:
 				return;
 
 			default:

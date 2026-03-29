@@ -37,7 +37,7 @@ public class AddressBookDAO {
 
 	public boolean insertContact(ContactPerson person) {
 
-		String query = "INSERT INTO contacts (first_name, last_name, address, city, state, zip, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		String query = "INSERT INTO contacts (first_name, last_name, address, city, state, zip, phone, email, date_added) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
@@ -50,9 +50,10 @@ public class AddressBookDAO {
 			ps.setString(7, person.getPhoneNumber());
 			ps.setString(8, person.getEmail());
 
-			int rows = ps.executeUpdate();
+			// UC18: Add current date
+			ps.setDate(9, java.sql.Date.valueOf(java.time.LocalDate.now()));
 
-			return rows > 0;
+			return ps.executeUpdate() > 0;
 
 		} catch (SQLException e) {
 			System.out.println("DB Insert Error: " + e.getMessage());
@@ -60,7 +61,6 @@ public class AddressBookDAO {
 
 		return false;
 	}
-
 	// UC17: Update contact using jdbc
 
 	public boolean updateContact(String firstName, ContactPerson updatedPerson) {
@@ -86,5 +86,43 @@ public class AddressBookDAO {
 		}
 
 		return false;
+	}
+	
+	//UC18 : 
+	public List<ContactPerson> getContactsByDateRange(String startDate, String endDate) {
+
+	    List<ContactPerson> list = new ArrayList<>();
+
+	    String query = "SELECT * FROM contacts WHERE date_added BETWEEN ? AND ?";
+
+	    try (Connection conn = DBConnection.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(query)) {
+
+	        ps.setDate(1, java.sql.Date.valueOf(startDate));
+	        ps.setDate(2, java.sql.Date.valueOf(endDate));
+
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+
+	            ContactPerson person = new ContactPerson(
+	                    rs.getString("first_name"),
+	                    rs.getString("last_name"),
+	                    rs.getString("address"),
+	                    rs.getString("city"),
+	                    rs.getString("state"),
+	                    rs.getString("zip"),
+	                    rs.getString("phone"),
+	                    rs.getString("email")
+	            );
+
+	            list.add(person);
+	        }
+
+	    } catch (SQLException e) {
+	        System.out.println("DB Fetch Error: " + e.getMessage());
+	    }
+
+	    return list;
 	}
 }

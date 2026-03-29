@@ -31,4 +31,9 @@ public class AddressBookService {
 
 		return false;
 	}
+
+	//UC18: 
+	public List<ContactPerson> getContactsByDateRange(String startDate, String endDate) {
+		return dao.getContactsByDateRange(startDate, endDate);
+	}
 }
