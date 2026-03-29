@@ -12,4 +12,23 @@ public class AddressBookService {
 	public List<ContactPerson> getAllContacts() {
 		return dao.getAllContacts();
 	}
+
+	public boolean updateContact(String firstName, ContactPerson updatedPerson) {
+		return dao.updateContact(firstName, updatedPerson);
+	}
+
+	public boolean isSyncedWithDB(String firstName, ContactPerson localPerson) {
+
+		List<ContactPerson> dbContacts = dao.getAllContacts();
+
+		for (ContactPerson dbPerson : dbContacts) {
+
+			if (dbPerson.getFirstName().equalsIgnoreCase(firstName)) {
+
+				return dbPerson.equals(localPerson);
+			}
+		}
+
+		return false;
+	}
 }

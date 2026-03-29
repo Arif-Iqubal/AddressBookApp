@@ -16,6 +16,7 @@ import java.util.List;
 
 public class AddressBook {
 
+	private AddressBookDAO dao = new AddressBookDAO();
 	// UC5: Collection to store multiple contacts
 	private List<ContactPerson> contactList = new ArrayList<>();
 
@@ -24,13 +25,24 @@ public class AddressBook {
 	 */
 	public void addContact(ContactPerson person) {
 
+		// UC7: Duplicate check in memory
 		if (contactList.contains(person)) {
 			System.out.println("Duplicate entry! Person already exists.");
 			return;
 		}
 
+		// Add to DB first (UC16)
+		boolean isAddedToDB = dao.insertContact(person);
+
+		if (!isAddedToDB) {
+			System.out.println("Failed to add contact to database.");
+			return;
+		}
+
+		// Add to memory only if DB success (UC17 Sync)
 		contactList.add(person);
-		System.out.println("Contact added successfully.");
+
+		System.out.println("Contact added successfully (DB + Memory).");
 	}
 
 	/*
@@ -258,5 +270,27 @@ public class AddressBook {
 		} catch (Exception e) {
 			System.out.println("Error reading JSON: " + e.getMessage());
 		}
+	}
+
+	// UC:17 Update contact in jdbc
+
+	public boolean updateContactInMemory(String firstName, ContactPerson updatedPerson) {
+
+		for (ContactPerson person : contactList) {
+
+			if (person.getFirstName().equalsIgnoreCase(firstName)) {
+
+				person.setAddress(updatedPerson.getAddress());
+				person.setCity(updatedPerson.getCity());
+				person.setState(updatedPerson.getState());
+				person.setZip(updatedPerson.getZip());
+				person.setPhoneNumber(updatedPerson.getPhoneNumber());
+				person.setEmail(updatedPerson.getEmail());
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

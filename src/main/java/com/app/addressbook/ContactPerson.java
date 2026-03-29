@@ -37,7 +37,6 @@ public class ContactPerson {
 	public String getCity() {
 		return city;
 	}
-	
 
 	public String getAddress() {
 		return address;
@@ -46,7 +45,7 @@ public class ContactPerson {
 	public String getState() {
 		return state;
 	}
-	
+
 	public String getZip() {
 		return zip;
 	}
@@ -74,8 +73,6 @@ public class ContactPerson {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
 
 	public String getPhoneNumber() {
 		return phoneNumber;
@@ -85,18 +82,7 @@ public class ContactPerson {
 		return email;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-
-		if (this == obj)
-			return true;
-		if (!(obj instanceof ContactPerson))
-			return false;
-
-		ContactPerson person = (ContactPerson) obj;
-
-		return firstName.equalsIgnoreCase(person.firstName) && lastName.equalsIgnoreCase(person.lastName);
-	}
+	
 
 	@Override
 	public int hashCode() {
@@ -110,5 +96,21 @@ public class ContactPerson {
 	public String toString() {
 		return "Name: " + firstName + " " + lastName + ", City: " + city + ", State: " + state + ", Phone: "
 				+ phoneNumber + ", Email: " + email;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if (this == obj)
+			return true;
+		if (!(obj instanceof ContactPerson))
+			return false;
+
+		ContactPerson p = (ContactPerson) obj;
+
+		return firstName.equalsIgnoreCase(p.firstName) && lastName.equalsIgnoreCase(p.lastName)
+				&& address.equalsIgnoreCase(p.address) && city.equalsIgnoreCase(p.city)
+				&& state.equalsIgnoreCase(p.state) && zip.equalsIgnoreCase(p.zip)
+				&& phoneNumber.equalsIgnoreCase(p.phoneNumber) && email.equalsIgnoreCase(p.email);
 	}
 }

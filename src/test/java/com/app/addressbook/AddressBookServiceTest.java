@@ -100,4 +100,34 @@ public class AddressBookServiceTest {
 		assertNotNull(service.getAllContacts());
 	}
 
+	@Test
+	void givenContact_whenUpdated_shouldSyncWithDB() {
+
+		AddressBookService service = new AddressBookService();
+		AddressBook book = new AddressBook();
+
+		// Original Contact
+		ContactPerson original = new ContactPerson("Arif", "Iqbal", "Bhopal", "Bhopal", "MP", "462001", "999",
+				"old@mail.com");
+
+		book.addContact(original);
+
+		// Updated Contact
+		ContactPerson updated = new ContactPerson("Arif", "Iqbal", "Delhi", "Delhi", "DL", "110001", "888",
+				"new@mail.com");
+
+		// Update DB
+		boolean dbUpdated = service.updateContact("Arif", updated);
+
+		// Update Memory
+		boolean memoryUpdated = book.updateContactInMemory("Arif", updated);
+
+		// Sync Check
+		boolean isSynced = service.isSyncedWithDB("Arif", updated);
+
+		assertTrue(dbUpdated);
+		assertTrue(memoryUpdated);
+		assertTrue(isSynced);
+	}
+
 }

@@ -34,4 +34,57 @@ public class AddressBookDAO {
 
 		return contactList;
 	}
+
+	public boolean insertContact(ContactPerson person) {
+
+		String query = "INSERT INTO contacts (first_name, last_name, address, city, state, zip, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+		try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+
+			ps.setString(1, person.getFirstName());
+			ps.setString(2, person.getLastName());
+			ps.setString(3, person.getAddress());
+			ps.setString(4, person.getCity());
+			ps.setString(5, person.getState());
+			ps.setString(6, person.getZip());
+			ps.setString(7, person.getPhoneNumber());
+			ps.setString(8, person.getEmail());
+
+			int rows = ps.executeUpdate();
+
+			return rows > 0;
+
+		} catch (SQLException e) {
+			System.out.println("DB Insert Error: " + e.getMessage());
+		}
+
+		return false;
+	}
+
+	// UC17: Update contact using jdbc
+
+	public boolean updateContact(String firstName, ContactPerson updatedPerson) {
+
+		String query = "UPDATE contacts SET address=?, city=?, state=?, zip=?, phone=?, email=? WHERE first_name=?";
+
+		try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+
+			ps.setString(1, updatedPerson.getAddress());
+			ps.setString(2, updatedPerson.getCity());
+			ps.setString(3, updatedPerson.getState());
+			ps.setString(4, updatedPerson.getZip());
+			ps.setString(5, updatedPerson.getPhoneNumber());
+			ps.setString(6, updatedPerson.getEmail());
+			ps.setString(7, firstName);
+
+			int rowsUpdated = ps.executeUpdate();
+
+			return rowsUpdated > 0;
+
+		} catch (SQLException e) {
+			System.out.println("DB Update Error: " + e.getMessage());
+		}
+
+		return false;
+	}
 }
