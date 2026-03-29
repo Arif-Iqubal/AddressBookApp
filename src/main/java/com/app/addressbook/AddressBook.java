@@ -7,6 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.CSVReader;
+
 
 public class AddressBook {
 
@@ -197,6 +200,64 @@ public class AddressBook {
 
 	    } catch (IOException e) {
 	        System.out.println("Error reading file: " + e.getMessage());
+	    }
+	}
+	
+	
+	//UC14: Read Write from csv
+	
+	
+
+	public void writeToCSV(String fileName) {
+
+	    try (CSVWriter writer = new CSVWriter(new FileWriter(fileName))) {
+
+	        for (ContactPerson person : contactList) {
+
+	            String[] data = {
+	                    person.getFirstName(),
+	                    person.getLastName(),
+	                    person.getAddress(),
+	                    person.getCity(),
+	                    person.getState(),
+	                    person.getZip(),
+	                    person.getPhoneNumber(),
+	                    person.getEmail()
+	            };
+
+	            writer.writeNext(data);
+	        }
+
+	        System.out.println("Contacts written to CSV successfully.");
+
+	    } catch (IOException e) {
+	        System.out.println("Error writing CSV: " + e.getMessage());
+	    }
+	}
+	
+	
+
+	public void readFromCSV(String fileName) {
+
+	    try (CSVReader reader = new CSVReader(new FileReader(fileName))) {
+
+	        String[] data;
+
+	        while ((data = reader.readNext()) != null) {
+
+	            ContactPerson person = new ContactPerson(
+	                    data[0], data[1], data[2],
+	                    data[3], data[4], data[5],
+	                    data[6], data[7]
+	            );
+
+	            contactList.add(person);
+	        }
+
+	        System.out.println("Contacts loaded from CSV successfully.");
+
+	    } catch (Exception e) {
+	        System.out.println("Error reading CSV: " + e.getMessage());
 	    }
 	}
 }

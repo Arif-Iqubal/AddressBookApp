@@ -136,7 +136,9 @@ public class AddressBookMain {
 			System.out.println("8. Sort Contacts by Zip (UC12)");
 			System.out.println("9. Save Contacts to File (UC13)");
 			System.out.println("10. Load Contacts from File (UC13)");
-			System.out.println("11. Back");
+			System.out.println("11. Save Contacts to CSV (UC14)");
+			System.out.println("12. Load Contacts from CSV (UC14)");
+			System.out.println("13. Back");
 
 			System.out.print("Enter Choice: ");
 			int option = scanner.nextInt();
@@ -233,6 +235,22 @@ public class AddressBookMain {
 				break;
 
 			case 11:
+
+				System.out.print("Enter CSV file name: ");
+				String writeCSV = scanner.nextLine();
+
+				book.writeToCSV(writeCSV);
+				break;
+
+			case 12:
+
+				System.out.print("Enter CSV file name: ");
+				String readCSV = scanner.nextLine();
+
+				book.readFromCSV(readCSV);
+				break;
+
+			case 13:
 				return;
 
 			default:
