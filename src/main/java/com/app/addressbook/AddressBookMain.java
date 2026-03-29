@@ -188,9 +188,17 @@ public class AddressBookMain {
 			case 2:
 
 				System.out.print("Enter First Name to Edit: ");
-				String editName = scanner.nextLine();
-
-				book.editContact(editName, scanner);
+				String editName = "";
+				String firstName1 = "";
+				String lastName1 = "";
+				String address1 = "";
+				String city1 = "";
+				String state1 = "";
+				String zip1 = "";
+				String phone1 = "";
+				String email1 = "";
+				ContactPerson person1 = new ContactPerson(firstName1, lastName1, address1, city1, state1, zip1, phone1, email1);
+				book.editContact(editName, person1);
 				break;
 
 			case 3:

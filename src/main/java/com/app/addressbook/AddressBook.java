@@ -49,36 +49,24 @@ public class AddressBook {
 	/*
 	 * UC3: Edit contact using person's first name
 	 */
-	public void editContact(String firstName, Scanner scanner) {
+	public boolean editContact(String firstName, ContactPerson updatedPerson) {
 
 		for (ContactPerson person : contactList) {
 
 			if (person.getFirstName().equalsIgnoreCase(firstName)) {
 
-				System.out.print("Enter New Address: ");
-				person.setAddress(scanner.nextLine());
+				person.setAddress(updatedPerson.getAddress());
+				person.setCity(updatedPerson.getCity());
+				person.setState(updatedPerson.getState());
+				person.setZip(updatedPerson.getZip());
+				person.setPhoneNumber(updatedPerson.getPhoneNumber());
+				person.setEmail(updatedPerson.getEmail());
 
-				System.out.print("Enter New City: ");
-				person.setCity(scanner.nextLine());
-
-				System.out.print("Enter New State: ");
-				person.setState(scanner.nextLine());
-
-				System.out.print("Enter New Zip: ");
-				person.setZip(scanner.nextLine());
-
-				System.out.print("Enter New Phone Number: ");
-				person.setPhoneNumber(scanner.nextLine());
-
-				System.out.print("Enter New Email: ");
-				person.setEmail(scanner.nextLine());
-
-				System.out.println("Contact updated successfully.");
-				return;
+				return true;
 			}
 		}
 
-		System.out.println("Contact not found.");
+		return false;
 	}
 
 	/*
