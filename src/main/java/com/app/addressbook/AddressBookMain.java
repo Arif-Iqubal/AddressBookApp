@@ -1,6 +1,7 @@
 package com.app.addressbook;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookMain {
@@ -143,7 +144,9 @@ public class AddressBookMain {
 			System.out.println("14. Load Contacts from JSON (UC15)");
 			System.out.println("15. Retrieve Contacts from Database (UC16)");
 			System.out.println("16. Retrieve Contacts by Date Range (UC18)");
-			System.out.println("17. Back");
+			System.out.println("17. Count Contacts by City (DB)");
+			System.out.println("18. Count Contacts by State (DB)");
+			System.out.println("19. Back");
 
 			System.out.print("Enter Choice: ");
 			int option = scanner.nextInt();
@@ -315,6 +318,26 @@ public class AddressBookMain {
 				break;
 
 			case 17:
+
+				AddressBookService service11 = new AddressBookService();
+
+				Map<String, Integer> cityCount = service11.getContactCountByCity();
+
+				cityCount.forEach((x, count) -> System.out.println(x + " : " + count));
+
+				break;
+
+			case 18:
+
+				AddressBookService service2 = new AddressBookService();
+
+				Map<String, Integer> stateCount = service2.getContactCountByState();
+
+				stateCount.forEach((x, count) -> System.out.println(x + " : " + count));
+
+				break;
+
+			case 19:
 				return;
 
 			default:

@@ -2,7 +2,9 @@ package com.app.addressbook;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddressBookDAO {
 
@@ -87,42 +89,81 @@ public class AddressBookDAO {
 
 		return false;
 	}
-	
-	//UC18 : 
+
+	// UC18 :
 	public List<ContactPerson> getContactsByDateRange(String startDate, String endDate) {
 
-	    List<ContactPerson> list = new ArrayList<>();
+		List<ContactPerson> list = new ArrayList<>();
 
-	    String query = "SELECT * FROM contacts WHERE date_added BETWEEN ? AND ?";
+		String query = "SELECT * FROM contacts WHERE date_added BETWEEN ? AND ?";
 
-	    try (Connection conn = DBConnection.getConnection();
-	         PreparedStatement ps = conn.prepareStatement(query)) {
+		try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
-	        ps.setDate(1, java.sql.Date.valueOf(startDate));
-	        ps.setDate(2, java.sql.Date.valueOf(endDate));
+			ps.setDate(1, java.sql.Date.valueOf(startDate));
+			ps.setDate(2, java.sql.Date.valueOf(endDate));
 
-	        ResultSet rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 
-	        while (rs.next()) {
+			while (rs.next()) {
 
-	            ContactPerson person = new ContactPerson(
-	                    rs.getString("first_name"),
-	                    rs.getString("last_name"),
-	                    rs.getString("address"),
-	                    rs.getString("city"),
-	                    rs.getString("state"),
-	                    rs.getString("zip"),
-	                    rs.getString("phone"),
-	                    rs.getString("email")
-	            );
+				ContactPerson person = new ContactPerson(rs.getString("first_name"), rs.getString("last_name"),
+						rs.getString("address"), rs.getString("city"), rs.getString("state"), rs.getString("zip"),
+						rs.getString("phone"), rs.getString("email"));
 
-	            list.add(person);
-	        }
+				list.add(person);
+			}
 
-	    } catch (SQLException e) {
-	        System.out.println("DB Fetch Error: " + e.getMessage());
-	    }
+		} catch (SQLException e) {
+			System.out.println("DB Fetch Error: " + e.getMessage());
+		}
 
-	    return list;
+		return list;
+	}
+
+	// UC19: Count by state
+	public Map<String, Integer> getContactCountByCity() {
+
+		Map<String, Integer> result = new HashMap<>();
+
+		String query = "SELECT city, COUNT(*) as count FROM contacts GROUP BY city";
+
+		try (Connection conn = DBConnection.getConnection();
+				PreparedStatement ps = conn.prepareStatement(query);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				result.put(rs.getString("city"), rs.getInt("count"));
+			}
+
+		} catch (SQLException e) {
+			System.out.println("DB Error: " + e.getMessage());
+		}
+
+		return result;
+	}
+
+	public Map<String, Integer> getContactCountByState() {
+
+		Map<String, Integer> stateCountMap = new HashMap<>();
+
+		String query = "SELECT state, COUNT(*) AS count FROM contacts GROUP BY state";
+
+		try (Connection conn = DBConnection.getConnection();
+				PreparedStatement ps = conn.prepareStatement(query);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+
+				String state = rs.getString("state");
+				int count = rs.getInt("count");
+
+				stateCountMap.put(state, count);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("DB Error: " + e.getMessage());
+		}
+
+		return stateCountMap;
 	}
 }
