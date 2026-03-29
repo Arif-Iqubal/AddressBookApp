@@ -138,7 +138,9 @@ public class AddressBookMain {
 			System.out.println("10. Load Contacts from File (UC13)");
 			System.out.println("11. Save Contacts to CSV (UC14)");
 			System.out.println("12. Load Contacts from CSV (UC14)");
-			System.out.println("13. Back");
+			System.out.println("13. Save Contacts to JSON (UC15)");
+			System.out.println("14. Load Contacts from JSON (UC15)");
+			System.out.println("15. Back");
 
 			System.out.print("Enter Choice: ");
 			int option = scanner.nextInt();
@@ -251,6 +253,22 @@ public class AddressBookMain {
 				break;
 
 			case 13:
+
+				System.out.print("Enter JSON file name: ");
+				String writeJSON = scanner.nextLine();
+
+				book.writeToJSON(writeJSON);
+				break;
+
+			case 14:
+
+				System.out.print("Enter JSON file name: ");
+				String readJSON = scanner.nextLine();
+
+				book.readFromJSON(readJSON);
+				break;
+
+			case 15:
 				return;
 
 			default:

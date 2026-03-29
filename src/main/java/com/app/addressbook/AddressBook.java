@@ -9,7 +9,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.CSVReader;
-
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class AddressBook {
 
@@ -142,122 +145,130 @@ public class AddressBook {
 
 		contactList.stream().sorted(Comparator.comparing(ContactPerson::getZip)).forEach(System.out::println);
 	}
-	
-	//UC13: Read Write from file
-	
-	
+
+	// UC13: Read Write from file
 
 	public void writeToFile(String fileName) {
 
-	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
 
-	        for (ContactPerson person : contactList) {
+			for (ContactPerson person : contactList) {
 
-	            writer.write(
-	                    person.getFirstName() + "," +
-	                    person.getLastName() + "," +
-	                    person.getAddress() + "," +
-	                    person.getCity() + "," +
-	                    person.getState() + "," +
-	                    person.getZip() + "," +
-	                    person.getPhoneNumber() + "," +
-	                    person.getEmail()
-	            );
+				writer.write(person.getFirstName() + "," + person.getLastName() + "," + person.getAddress() + ","
+						+ person.getCity() + "," + person.getState() + "," + person.getZip() + ","
+						+ person.getPhoneNumber() + "," + person.getEmail());
 
-	            writer.newLine();
-	        }
+				writer.newLine();
+			}
 
-	        System.out.println("Contacts saved to file successfully.");
+			System.out.println("Contacts saved to file successfully.");
 
-	    } catch (IOException e) {
-	        System.out.println("Error writing to file: " + e.getMessage());
-	    }
+		} catch (IOException e) {
+			System.out.println("Error writing to file: " + e.getMessage());
+		}
 	}
-	
-	
-
 
 	public void readFromFile(String fileName) {
 
-	    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
 
-	        String line;
+			String line;
 
-	        while ((line = reader.readLine()) != null) {
+			while ((line = reader.readLine()) != null) {
 
-	            String[] data = line.split(",");
+				String[] data = line.split(",");
 
-	            ContactPerson person = new ContactPerson(
-	                    data[0], data[1], data[2],
-	                    data[3], data[4], data[5],
-	                    data[6], data[7]
-	            );
+				ContactPerson person = new ContactPerson(data[0], data[1], data[2], data[3], data[4], data[5], data[6],
+						data[7]);
 
-	            contactList.add(person);
-	        }
+				contactList.add(person);
+			}
 
-	        System.out.println("Contacts loaded from file successfully.");
+			System.out.println("Contacts loaded from file successfully.");
 
-	    } catch (IOException e) {
-	        System.out.println("Error reading file: " + e.getMessage());
-	    }
+		} catch (IOException e) {
+			System.out.println("Error reading file: " + e.getMessage());
+		}
 	}
-	
-	
-	//UC14: Read Write from csv
-	
-	
+
+	// UC14: Read Write from csv
 
 	public void writeToCSV(String fileName) {
 
-	    try (CSVWriter writer = new CSVWriter(new FileWriter(fileName))) {
+		try (CSVWriter writer = new CSVWriter(new FileWriter(fileName))) {
 
-	        for (ContactPerson person : contactList) {
+			for (ContactPerson person : contactList) {
 
-	            String[] data = {
-	                    person.getFirstName(),
-	                    person.getLastName(),
-	                    person.getAddress(),
-	                    person.getCity(),
-	                    person.getState(),
-	                    person.getZip(),
-	                    person.getPhoneNumber(),
-	                    person.getEmail()
-	            };
+				String[] data = { person.getFirstName(), person.getLastName(), person.getAddress(), person.getCity(),
+						person.getState(), person.getZip(), person.getPhoneNumber(), person.getEmail() };
 
-	            writer.writeNext(data);
-	        }
+				writer.writeNext(data);
+			}
 
-	        System.out.println("Contacts written to CSV successfully.");
+			System.out.println("Contacts written to CSV successfully.");
 
-	    } catch (IOException e) {
-	        System.out.println("Error writing CSV: " + e.getMessage());
-	    }
+		} catch (IOException e) {
+			System.out.println("Error writing CSV: " + e.getMessage());
+		}
 	}
-	
-	
 
 	public void readFromCSV(String fileName) {
 
-	    try (CSVReader reader = new CSVReader(new FileReader(fileName))) {
+		try (CSVReader reader = new CSVReader(new FileReader(fileName))) {
 
-	        String[] data;
+			String[] data;
 
-	        while ((data = reader.readNext()) != null) {
+			while ((data = reader.readNext()) != null) {
 
-	            ContactPerson person = new ContactPerson(
-	                    data[0], data[1], data[2],
-	                    data[3], data[4], data[5],
-	                    data[6], data[7]
-	            );
+				ContactPerson person = new ContactPerson(data[0], data[1], data[2], data[3], data[4], data[5], data[6],
+						data[7]);
 
-	            contactList.add(person);
-	        }
+				contactList.add(person);
+			}
 
-	        System.out.println("Contacts loaded from CSV successfully.");
+			System.out.println("Contacts loaded from CSV successfully.");
 
-	    } catch (Exception e) {
-	        System.out.println("Error reading CSV: " + e.getMessage());
-	    }
+		} catch (Exception e) {
+			System.out.println("Error reading CSV: " + e.getMessage());
+		}
+	}
+
+	// UC15: Read Write from json
+
+	public void writeToJSON(String fileName) {
+
+		Gson gson = new Gson();
+
+		try (FileWriter writer = new FileWriter(fileName)) {
+
+			gson.toJson(contactList, writer);
+
+			System.out.println("Contacts written to JSON successfully.");
+
+		} catch (IOException e) {
+			System.out.println("Error writing JSON: " + e.getMessage());
+		}
+	}
+
+	public void readFromJSON(String fileName) {
+
+		Gson gson = new Gson();
+
+		try (FileReader reader = new FileReader(fileName)) {
+
+			Type listType = new TypeToken<List<ContactPerson>>() {
+			}.getType();
+
+			List<ContactPerson> persons = gson.fromJson(reader, listType);
+
+			if (persons != null) {
+				contactList.addAll(persons);
+			}
+
+			System.out.println("Contacts loaded from JSON successfully.");
+
+		} catch (Exception e) {
+			System.out.println("Error reading JSON: " + e.getMessage());
+		}
 	}
 }
